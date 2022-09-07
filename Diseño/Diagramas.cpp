@@ -1,1 +1,1 @@
-//Subir Diagramas en otro archivo
+//Subir los diagramas en otro archivo en esta carpeta y ponerlo en la Wiki del proyecto
