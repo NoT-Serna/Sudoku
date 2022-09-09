@@ -3,4 +3,6 @@ sudoku generator: **https://rapidapi.com/gregor-i/api/sudoku-generator1**
 
 api rest: https://fastapi.tiangolo.com/#example
 
-https://www.makeareadme.com/
+Docs: https://www.makeareadme.com/
+
+UI/UX: https://www.figma.com/
