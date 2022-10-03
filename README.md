@@ -1,18 +1,24 @@
-# Documentación: Sebas
+# Sudoku
 
 sudoku generator: **https://rapidapi.com/gregor-i/api/sudoku-generator1**
-
 api rest: https://fastapi.tiangolo.com/#example
 
 Sebas:
   -Docs: https://www.makeareadme.com/
-  -UI/UX: https://www.figma.com/
+  -Manual de uso
+  -Poster
+  -Frontend
 
 Pipe:
   -UML: https://www.lucidchart.com/pages/es/ejemplos/diagrama-uml
-  -diagramas uml y diagrama de casos de uso
+  -Diagramas uml y diagrama de casos de uso
+  -Diseño UI/UX: https://www.figma.com/
 
 Juanjo:
-  -Testing e integracion al github
+  -Integracion continua
+  -Escribir los test
+  -Setup del proyecto
 
-MEC: tareas, scrum y github projects con todos los requerimientos
+MEC: 
+  -Organizar el github con metodologia scrum
+  -Crear el product backlog
