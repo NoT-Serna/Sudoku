@@ -17,3 +17,4 @@ mypy backend/src backend/tests
 
 ## Documentacion
 (Link a los posters o el manual de uso en el notion)
+test
