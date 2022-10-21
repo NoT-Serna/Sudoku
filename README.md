@@ -1,24 +1,19 @@
-# Sudoku
+# Sudoku &middot; ![Tests](https://github.com/JuanJoZP/sudoku/actions/workflows/tests.yml/badge.svg)
 
-sudoku generator: **https://rapidapi.com/gregor-i/api/sudoku-generator1**
-api rest: https://fastapi.tiangolo.com/#example
+Aplicacion que permite jugar sudoku mediante una pagina web, adicionalmente implementa algoritmo para resolver el juego automaticamente
 
-Sebas:
-  -Docs: https://www.makeareadme.com/
-  -Manual de uso
-  -Poster
-  -Frontend
+## Setup
+```
+cd backend 
+python -m pip install -e .
+```
 
-Pipe:
-  -UML: https://www.lucidchart.com/pages/es/ejemplos/diagrama-uml
-  -Diagramas uml y diagrama de casos de uso
-  -Diseño UI/UX: https://www.figma.com/
+## Tests
+```
+pytest backend
+flake8 backend
+mypy backend/src backend/tests
+```
 
-Juanjo:
-  -Integracion continua
-  -Escribir los test
-  -Setup del proyecto
-
-MEC: 
-  -Organizar el github con metodologia scrum
-  -Crear el product backlog
+## Documentacion
+(Link a los posters o el manual de uso en el notion)

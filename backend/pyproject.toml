@@ -1,0 +1,40 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools>=42.0", "wheel"]
+
+[tool.pytest.ini_options]
+addopts = "--cov=main"
+testpaths = ["tests"]
+
+[tool.mypy]
+mypy_path = "src"
+
+# Disallow dynamic typing
+disallow_any_decorated = true
+disallow_any_explicit = true
+disallow_any_expr = true
+disallow_any_generics = true
+disallow_any_unimported = true
+disallow_subclassing_any = true
+
+# Disallow untyped definitions and calls
+check_untyped_defs = true
+disallow_incomplete_defs = true
+disallow_untyped_calls = true
+disallow_untyped_decorators = true
+disallow_untyped_defs = true
+
+# None and optional handling
+no_implicit_optional = true
+
+# Configuring warnings
+warn_no_return = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+warn_unused_configs = true
+warn_unused_ignores = true
+
+# Misc things
+show_error_codes = true
+strict_equality = true
