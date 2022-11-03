@@ -1,4 +1,4 @@
-# Sudoku &middot; ![Tests](https://github.com/JuanJoZP/sudoku/actions/workflows/tests.yml/badge.svg)
+# Sudoku &middot; 
 
 Aplicacion que permite jugar sudoku mediante una pagina web, adicionalmente implementa algoritmo para resolver el juego automaticamente
 
