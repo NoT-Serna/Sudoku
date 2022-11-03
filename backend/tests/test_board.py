@@ -17,6 +17,7 @@ class TestBoard:
         assert (len(board.board) == 9 and len(board.board[0]) == 9
                 and 0 in board.board[0])
 
+    @pytest.mark.xfail(reason="No esta implementado")
     def test_set_box(self, board: Board):
         board.setBox(0, 0, 1)
         board.setBox(8, 0, 2)
@@ -41,6 +42,7 @@ class TestBoard:
         with pytest.raises(ValueError):
             board.setBox(0, 0, -1)
 
+    @pytest.mark.xfail(reason="No esta implementado")
     def test_get_json(self, board: Board):
         # no se puede pedir el JSON sin haber inicializado el tablero
         with pytest.raises(NotFilledError):
@@ -53,6 +55,7 @@ class TestBoard:
         assert (dict["board"] == board.board and dict["original"]
                 and dict["dif"] == "easy")
 
+    @pytest.mark.xfail(reason="No esta implementado")
     def test_verify(self, board: Board):
         wrong_board = []
         # un tablero lleno de ceros es incorrecto
@@ -89,6 +92,7 @@ class TestBoard:
             board.board = b
             assert board.verify()
 
+    @pytest.mark.xfail(reason="No esta implementado")
     def test_partialVerify(self, board: Board):
 
         correct_partial_board = [
@@ -147,6 +151,7 @@ class TestBoard:
             board.board = b
             assert not board.partialVerify()
 
+    @pytest.mark.xfail(reason="No esta implementado")
     def test_hint(self, board: Board):
         with pytest.raises(FullBoard):
             # ejemplo de tablero lleno
@@ -177,6 +182,7 @@ class TestBoard:
 
         assert board.partialVerify()
 
+    @pytest.mark.xfail(reason="No esta implementado")
     def test_resolve(self, board: Board):
         board.fill("easy")
         board.resolve()
