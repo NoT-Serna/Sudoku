@@ -14,8 +14,7 @@ def board() -> Board:
 class TestBoard:
 
     def test_init(self, board: Board) -> None:
-        assert (len(board.board) == 9 and len(board.board[0]) == 9
-                and 0 in board.board[0])
+        assert (len(board.board) == 9 and len(board.board[0]) == 9 and 0 in board.board[0])
 
     def test_set_box(self, board: Board) -> None:
         board.setBox(0, 0, 1)
@@ -47,9 +46,7 @@ class TestBoard:
         dict_str = dict_str.replace("\'", "\"")
         dict = json.loads(dict_str)  # type: ignore
 
-        assert (dict["board"] == board.board and  # type: ignore
-                dict["original"] == board.original  # type: ignore
-                and dict["difficulty"] == "easy")  # type: ignore
+        assert (dict["board"] == board.board and dict["original"] == board.original and dict["difficulty"] == "easy")
 
     @pytest.mark.xfail(reason="El test esta mal hecho")
     def test_verify(self, board: Board) -> None:
