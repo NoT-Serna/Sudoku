@@ -1,4 +1,5 @@
 import pytest
+import json
 
 from board.board import Board
 from board.exceptions import AlreadyResolvedError
@@ -42,7 +43,9 @@ class TestBoard:
 
     def test_get_json(self, board: Board) -> None:
         board.fill("easy")
-        dict = board.getJSON()
+        dict_str = board.getJSON()
+        dict_str = dict_str.replace("\'", "\"")
+        dict = json.loads(dict_str)  # type: ignore
 
         assert (dict["board"] == board.board and dict["original"] == board.original  # type: ignore
                 and dict["difficulty"] == "easy")  # type: ignore

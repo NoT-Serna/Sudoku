@@ -1,5 +1,5 @@
 import http.client
-from typing import List, Tuple, Literal, Dict
+from typing import List, Tuple, Literal
 import json
 
 from .exceptions import NotInitializedError, AlreadyInitializedError, AlreadyResolvedError

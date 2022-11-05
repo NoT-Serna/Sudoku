@@ -3,7 +3,6 @@
 import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel
-from typing import Callable, TypeVar
 
 from board.board import Board
 from board.exceptions import AlreadyInitializedError, AlreadyResolvedError, NotInitializedError
