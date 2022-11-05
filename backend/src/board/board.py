@@ -1,5 +1,5 @@
 import http.client
-from typing import List, Tuple, Literal
+from typing import List, Tuple, Literal, Dict
 import json
 
 from .exceptions import NotInitializedError, AlreadyInitializedError, AlreadyResolvedError
@@ -16,7 +16,7 @@ class Board():
         self.board = [[0 for j in range(9)] for i in range(9)]
         self.original = [[0 for j in range(9)] for i in range(9)]
 
-    def matrixToBoard(self):
+    def matrixToBoard(self) -> str:
         result = ""
         for row in self.original:
             for box in row:
@@ -24,7 +24,7 @@ class Board():
 
         return result
 
-    def boardToMatrix(self, board):
+    def boardToMatrix(self, board: str) -> List[List[int]]:
         result = [[0 for j in range(9)] for i in range(9)]
         cont = 0
         for i in range(9):
@@ -34,29 +34,33 @@ class Board():
 
         return result
 
-    def fill(self, dif: Literal["easy", "medium", "hard"]) -> None:
+    def fill(self, dif: str) -> None:
         if not self.filled:
-            conn = http.client.HTTPSConnection("sudoku-generator1.p.rapidapi.com")
+            if dif not in ["easy", "medium", "hard"]:
+                raise ValueError
+            else:
+                conn = http.client.HTTPSConnection("sudoku-generator1.p.rapidapi.com")
 
-            headers = {
-                'X-RapidAPI-Key': "eefc2721f6mshceeb0e5cf49acf9p1c83d2jsn8c93826ed3e4",
-                'X-RapidAPI-Host': "sudoku-generator1.p.rapidapi.com"
-            }
+                headers = {
+                    'X-RapidAPI-Key': "eefc2721f6mshceeb0e5cf49acf9p1c83d2jsn8c93826ed3e4",
+                    'X-RapidAPI-Host': "sudoku-generator1.p.rapidapi.com"
+                }
 
-            conn.request("GET", f"/sudoku/generate?difficulty={dif}", headers=headers)
-            print(f"/sudoku/generate/?difficulty={dif}")
-            res = conn.getresponse()
-            data = res.read()
+                conn.request("GET", f"/sudoku/generate?difficulty={dif}", headers=headers)
+                print(f"/sudoku/generate/?difficulty={dif}")
+                res = conn.getresponse()
+                data = res.read()
 
-            puzzle: str = json.loads(data)["puzzle"]
-            cont = 0
-            for i in range(9):
-                for j in range(9):
-                    self.original[i][j] = int(puzzle[cont]) if puzzle[cont] != "." else 0
-                    self.board[i][j] = int(puzzle[cont]) if puzzle[cont] != "." else 0
-                    cont += 1
+                puzzle: str = json.loads(data)["puzzle"]  # type: ignore
+                cont = 0
+                for i in range(9):
+                    for j in range(9):
+                        self.original[i][j] = int(puzzle[cont]) if puzzle[cont] != "." else 0
+                        self.board[i][j] = int(puzzle[cont]) if puzzle[cont] != "." else 0
+                        cont += 1
 
-            self.filled = True
+                self.filled = True
+
         else:
             raise AlreadyInitializedError
 
@@ -66,21 +70,21 @@ class Board():
         else:
             raise ValueError
 
-    def setBoard(self, board):
+    def setBoard(self, board: List[List[int]]) -> None:
         self.board = board
 
-    def setResolved(self, bool):
+    def setResolved(self, bool: bool) -> None:
         self.resolved = bool
 
     def getJSON(self) -> str:
         json = {"difficulty": self.difficulty, "board": self.board, "original": self.original}
-        return json
+        return str(json)
 
     def hint(self) -> Tuple[int, int, int]:
         # da una pista, devuelve el numero y su posicion, no lo coloca
         pass
 
-    def resolve(self) -> None:
+    def resolve(self) -> str:
         if not self.resolved and self.filled:
             conn = http.client.HTTPSConnection("sudoku-generator1.p.rapidapi.com")
 
@@ -95,7 +99,8 @@ class Board():
             res = conn.getresponse()
             data = res.read()
 
-            return json.loads(data)["solution"]
+            return str(json.loads(data)["solution"])  # type: ignore
+
         elif self.resolved:
             raise AlreadyResolvedError
         else:
@@ -103,8 +108,8 @@ class Board():
 
     def verify(self) -> bool:
         # retorna true si el tablero esta completo y es correcto
-        solution = self.resolve()
-        solution = self.boardToMatrix(solution)
+        solution_str = self.resolve()
+        solution = self.boardToMatrix(solution_str)
 
         return solution == self.board
 

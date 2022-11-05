@@ -1,6 +1,9 @@
+# type: ignore
+
 import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel
+from typing import Callable, TypeVar
 
 from board.board import Board
 from board.exceptions import AlreadyInitializedError, AlreadyResolvedError, NotInitializedError
@@ -16,7 +19,7 @@ app = FastAPI()
 
 
 class UseBoard:
-    board: Board = None
+    board: Board
 
     def __init__(self) -> None:
         self.board = Board()
@@ -24,7 +27,7 @@ class UseBoard:
     def getBoard(self) -> Board:
         return self.board
 
-    def newBoard(self) -> None:
+    def newBoard(self) -> Board:
         self.board = Board()
         return self.board
 
@@ -33,49 +36,51 @@ board = UseBoard()
 
 
 @app.get("/")
-def read_root():
+def get_board() -> str:
     return board.getBoard().getJSON()
 
 
 @app.post("/")
-def set_box(box: Box):
+def set_box(box: Box) -> str:
     b = board.getBoard()
     b.setBox(box.x, box.y, box.value)
     return b.getJSON()
 
 
 @app.get("/fill")
-def read_root(dif="easy"):
+def get_fill(dif: str = "easy") -> str:
     b = board.getBoard()
     try:
         b.fill(dif)
     except AlreadyInitializedError as e:
-        return e.args[0]
+        msg: str = e.args[0]
+        return msg
 
     return b.getJSON()
 
 
 @app.get("/reset")
-def read_root():
+def get_reset() -> str:
     b = board.newBoard()
     return b.getJSON()
 
 
 @app.get("/resolve")
-def read_root():
+def get_resolve() -> str:
     b = board.getBoard()
     try:
         resolved = b.resolve()
         b.setBoard(b.boardToMatrix(resolved))
         b.setResolved(True)
     except (AlreadyResolvedError, NotInitializedError) as e:
-        return e.args[0]
+        msg: str = e.args[0]
+        return msg
 
     return b.getJSON()
 
 
 @app.get("/verify")
-def verify():
+def get_verify() -> bool:
     b = board.getBoard()
     return b.verify()
 
