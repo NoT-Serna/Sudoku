@@ -28,12 +28,12 @@ jobs:
         cd backend
         python -m pip install --upgrade pip
         pip install -e .
-        pip install flake8 --extend-ignore=E501 pytest mypy pytest-cov
+        pip install flake8 pytest mypy pytest-cov
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
-        flake8 backend --count --show-source --statistics
+        flake8 backend --ignore=E501 --count --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 backend --count --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
