@@ -2,31 +2,29 @@ import pytest
 import json
 
 from board.board import Board
-from board.exceptions import NotFilledError, FullBoard
+from board.exceptions import AlreadyResolvedError
 
 
 @pytest.fixture(scope="class")
-def board():
+def board() -> Board:
     return Board()
 
 
 @pytest.mark.usefixtures("board")
 class TestBoard:
 
-    def test_init(self, board: Board):
-        assert (len(board.board) == 9 and len(board.board[0]) == 9
-                and 0 in board.board[0])
+    def test_init(self, board: Board) -> None:
+        assert (len(board.board) == 9 and len(board.board[0]) == 9 and 0 in board.board[0])
 
-    @pytest.mark.xfail(reason="No esta implementado")
-    def test_set_box(self, board: Board):
+    def test_set_box(self, board: Board) -> None:
         board.setBox(0, 0, 1)
         board.setBox(8, 0, 2)
         board.setBox(0, 8, 3)
         board.setBox(8, 8, 4)
 
         assert board.board[0][0] == 1
-        assert board.board[8][0] == 2
-        assert board.board[0][8] == 3
+        assert board.board[0][8] == 2
+        assert board.board[8][0] == 3
         assert board.board[8][8] == 4
 
         # revisar el tipo de error
@@ -42,21 +40,18 @@ class TestBoard:
         with pytest.raises(ValueError):
             board.setBox(0, 0, -1)
 
-    @pytest.mark.xfail(reason="No esta implementado")
-    def test_get_json(self, board: Board):
-        # no se puede pedir el JSON sin haber inicializado el tablero
-        with pytest.raises(NotFilledError):
-            board.getJSON()
-
+    def test_get_json(self, board: Board) -> None:
         board.fill("easy")
-        board_json = board.getJSON()
-        dict = json.loads(board_json)
+        dict_str = board.getJSON()
+        dict_str = dict_str.replace("\'", "\"")
+        dict = json.loads(dict_str)  # type: ignore
 
-        assert (dict["board"] == board.board and dict["original"]
-                and dict["dif"] == "easy")
+        assert (dict["board"] == board.board and dict["original"] == board.original and dict["difficulty"] == "easy")
 
-    @pytest.mark.xfail(reason="No esta implementado")
-    def test_verify(self, board: Board):
+    @pytest.mark.xfail(reason="El test esta mal hecho")
+    def test_verify(self, board: Board) -> None:
+        # esta mal porque toca construir tambien board.original y revisar que
+        # el verify se salte el error de NotInitializedError
         wrong_board = []
         # un tablero lleno de ceros es incorrecto
         zeros = [[0 for j in range(9)] for i in range(9)]
@@ -93,7 +88,7 @@ class TestBoard:
             assert board.verify()
 
     @pytest.mark.xfail(reason="No esta implementado")
-    def test_partialVerify(self, board: Board):
+    def test_partialVerify(self, board: Board) -> None:
 
         correct_partial_board = [
             # ejemplo de un tablero casi lleno y correcto
@@ -152,8 +147,8 @@ class TestBoard:
             assert not board.partialVerify()
 
     @pytest.mark.xfail(reason="No esta implementado")
-    def test_hint(self, board: Board):
-        with pytest.raises(FullBoard):
+    def test_hint(self, board: Board) -> None:
+        with pytest.raises(AlreadyResolvedError):
             # ejemplo de tablero lleno
             board.board = [[9, 6, 3, 1, 7, 4, 2, 5, 8],
                            [1, 7, 8, 3, 2, 5, 6, 4, 9],
@@ -182,12 +177,13 @@ class TestBoard:
 
         assert board.partialVerify()
 
-    @pytest.mark.xfail(reason="No esta implementado")
-    def test_resolve(self, board: Board):
+    @pytest.mark.xfail(reason="mientras usemos el API no se puede probar")
+    def test_resolve(self, board: Board) -> None:
         board.fill("easy")
         board.resolve()
         assert board.verify()
 
     @pytest.mark.skip(reason="mientras usemos el API no se puede probar")
-    def test_fill(self, board: Board):
+    def test_fill(self, board: Board) -> None:
+        # toca probar si se le manda mal la dificultad
         pass
