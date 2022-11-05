@@ -47,7 +47,8 @@ class TestBoard:
         dict_str = dict_str.replace("\'", "\"")
         dict = json.loads(dict_str)  # type: ignore
 
-        assert (dict["board"] == board.board and dict["original"] == board.original  # type: ignore
+        assert (dict["board"] == board.board and  # type: ignore
+                dict["original"] == board.original  # type: ignore
                 and dict["difficulty"] == "easy")  # type: ignore
 
     @pytest.mark.xfail(reason="El test esta mal hecho")
