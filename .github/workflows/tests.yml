@@ -28,7 +28,7 @@ jobs:
         cd backend
         python -m pip install --upgrade pip
         pip install -e .
-        pip install flake8 pytest mypy pytest-cov
+        pip install flake8 --extend-ignore=E501 pytest mypy pytest-cov
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8
       run: |
